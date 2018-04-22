@@ -1,0 +1,3 @@
+[submodule "TheOrgBook"]
+	path = TheOrgBook
+	url = git@github.com:functioncreep/TheOrgBook.git
