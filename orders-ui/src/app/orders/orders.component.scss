@@ -171,3 +171,11 @@ form[name="place_order_form"] > .row {
 div.my-company > .row h6 {
     color: #999999;
 }
+
+// select[name="product_producer"]:after {
+//     content: 'verified';
+// }
+
+div.producer-verified {
+    color: $highlight_color;
+}

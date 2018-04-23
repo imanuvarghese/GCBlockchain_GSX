@@ -12,6 +12,7 @@ import { Configuration } from './configuration';
 // Services
 import { DataService } from './data.service';
 import { OrderService } from './orders/order.service';
+import { NotificationService } from './notification.service';
 
 // Components
 import { AppComponent } from './app.component';
@@ -19,12 +20,14 @@ import { OrdersComponent } from './orders/orders.component';
 
 // Directives
 import { InputValidatorDirective } from './shared/input-validator.directive';
+import { NotificationsComponent } from './notifications/notifications.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     OrdersComponent,
+    NotificationsComponent,
     InputValidatorDirective
   ],
   imports: [
@@ -38,7 +41,8 @@ import { InputValidatorDirective } from './shared/input-validator.directive';
   providers: [
     Configuration,
     DataService,
-    OrderService
+    OrderService,
+    NotificationService
   ],
   bootstrap: [AppComponent]
 })

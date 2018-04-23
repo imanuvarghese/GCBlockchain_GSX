@@ -1,0 +1,8 @@
+<div class="container notifications">
+  <div *ngIf="notificationService.notifications.length">
+    <div class="alert alert-{{ notification.type }}" role="alert" *ngFor="let notification of notificationService.notifications; let i = index">
+      <span class="float-right notifications btn-close" (click)="notificationService.clear(i);">&times;</span>
+      <p class="float-none">{{ notification.message }}</p>
+    </div>
+  </div>
+</div>

@@ -86,6 +86,7 @@
 										orderSelection
 									>
 										<option value="-1" selected diabled>Select a product amount</option>
+										<option valie="100">100</option>
 									</select>
 									<div *ngIf="productAmount.invalid && (productAmount.dirty || productAmount.touched)"
 										class="invalid-alert-message">
@@ -120,7 +121,7 @@
 								orderSelection
 							>
 								<option value="-1" selected diabled>Select a producer</option>
-								<option value="{{ supplier.username }}" *ngFor="let supplier of suppliersList">{{ supplier.company ? supplier.company : supplier.username }}</option>
+								<option value="{{ supplier.profile.username }}" *ngFor="let supplier of suppliersList">{{ supplier.profile.company ? supplier.profile.company : supplier.profile.username }}</option>
 							</select>
 							<div *ngIf="producer.invalid && (producer.dirty || producer.touched)"
 								class="invalid-alert-message">
@@ -134,7 +135,7 @@
 								class="invalid-alert-message">
 							
 								<div *ngIf="producer.errors.invalidSelection">
-									Please choose a product amount.
+									Please choose a producer.
 								</div>
 							
 							</div>
@@ -221,54 +222,28 @@
 </div>
 
 <!-- Modal Dialogs -->
-<!-- Add Payee -->
+<!-- Save Card -->
 <div 
-	#addPayeeModal
+	#verifyProducerModal
 	class="modal fade" 
-	id="add_payee_modal" 
+	id="producer_verify_modal" 
 	tabindex="-1" 
 	role="dialog" 
-	aria-label="Add a new payee to your account" 
+	aria-label="Store this card on your account profile for future payments" 
 	aria-hidden="true"
 >
 	<div class="modal-dialog modal-dialog-centered" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h5 class="modal-title">Adding New Payee</h5>
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-					<span aria-hidden="true">&times;</span>
-				</button>
+				<h5 class="modal-title">Please wait while we verify the producer...</h5>
 			</div>
-			<form 
-				#addPayeeForm="ngForm" 
-				name="add_payee_form" 
-				(ngSubmit)="addPayee();"
-			>
-				<div class="modal-body">
-					<!-- Select A Supplier To Add As Payee -->
-					<select
-						class="form-control"
-						id="select_supplier"
-						name="select_supplier"
-						[(ngModel)]="supplier.selected"
-						[ngClass]="{'invalid-alert': supplier.selected.invalid && supplier.selected.touched || supplier.selected < 0 && supplier.selected.touched}"
-						required
-					>
-						<option value="-1">Select a supplier to add as payee</option>
-						<option *ngFor="let supplier of suppliersList; index as i" [value]="i">{{ supplier.username }}</option>
-					</select>
-					<div *ngIf="supplier.selected.invalid && supplier.selected.touched || supplier.selected < 0 && supplier.selected.touched"
-													class="invalid-alert-message">					
-						<div *ngIf="supplier.selected.errors.required">
-							Please select a valid payee.
-						</div>
-					</div>
-				</div>
-				<div class="modal-footer">
-					<button type="submit" class="btn btn-primary" [disabled]="addPayeeForm.invalid || supplier.selected < 0">Add</button>
-					<button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="resetForm('add_payee');">Cancel</button>
-				</div>
-			</form>
+			<div class="modal-body">
+				<ngx-loading [show]="true" [config]="{ backdropBackgroundColour: '#61a83e', fullScreenBackdrop: false }"></ngx-loading>
+			</div>
+			<!-- <div class="modal-footer">
+				<button type="button" class="btn btn-primary" (click)="saveCardToVault();">Save</button>
+				<button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="resetForm('add_funds');">No Thanks</button>
+			</div> -->
 		</div>
 	</div>
 </div>
