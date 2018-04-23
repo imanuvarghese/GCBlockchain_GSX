@@ -68,6 +68,53 @@ export class OrdersComponent implements OnInit {
     }
   ];
 
+  // Dummy data for order details
+  public orderDetails = {
+    id: null,
+    entries: [
+      {
+        stage: 'Producer verified',
+        status: 'done',
+        timestamp: '2018-04-23 14:07',
+      },
+      {
+        stage: 'Order created',
+        status: 'done',
+        timestamp: '2018-04-23 14:07',
+      },
+      {
+        stage: 'Distributor verified',
+        status: 'done',
+        timestamp: '2018-04-23 14:08',
+      },
+      {
+        stage: 'Order verified',
+        status: 'done',
+        timestamp: '2018-04-23 14:08',
+      },
+      {
+        stage: 'Assets moved',
+        status: 'done',
+        timestamp: '2018-04-23 14:09',
+      },
+      {
+        stage: 'Asset receipt validated',
+        status: 'done',
+        timestamp: '2018-04-23 14:11',
+      },
+      {
+        stage: 'Funds moved',
+        status: 'done',
+        timestamp: '2018-04-23 14:11',
+      },
+      {
+        stage: 'Order Complete!',
+        status: 'done',
+        timestamp: '2018-04-23 14:07',
+      }
+    ]
+  };
+
   constructor(
     private orderService: OrderService,
     private notificationService: NotificationService
@@ -79,8 +126,8 @@ export class OrdersComponent implements OnInit {
     this.history = [
       {
         'orderId': '23fgYT4LSp',
-        'paymentDate': '2018-04-23 4:12 pm',
-        'paymentAmount': '4000 GSX',
+        'date': '2018-04-23 14:07',
+        'amount': '4000 GSX',
         'status': 'pending',
         'paymentNotes': {
           'products': [
@@ -131,7 +178,7 @@ export class OrdersComponent implements OnInit {
     console.log('order =>', this.order);
     jQuery('#producer_verify_modal').modal('show');
 
-    setTimeout(function() {
+    setTimeout(function () {
       _self.processingMessage = "Transferring funds...";
       _self.orderService.transferTokens(_self.order.total, _self.order.producer)
         .then((response) => {
@@ -166,6 +213,12 @@ export class OrdersComponent implements OnInit {
       .catch((error) => {
         console.log('Error getting wallet balance:', error);
       });
+  }
+
+  public showOrderDetails(orderId: string): void {
+    console.log(orderId);
+    this.orderDetails.id = orderId;
+    jQuery('#order_details_modal').modal('show');
   }
 
 }

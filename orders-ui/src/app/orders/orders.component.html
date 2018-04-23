@@ -35,7 +35,7 @@
 									Mr. Weedsley's House of Ganja
 								</div>
 								<div class="row">
-									Address
+									<!-- Address -->
 								</div>
 								<div class="row wallet-balance" *ngIf="walletBalance !== null; else loading_balance">
 									<h6>Wallet balance:</h6><h6 class="user-wallet-balance">&#160;{{ walletBalance }} GSX</h6>
@@ -184,19 +184,18 @@
 										<div class="col history-heading status"><h6>Status</h6></div>
 									</div>
 									<div class="row incoming-entry" *ngFor="let entry of history">
-										<div class="col history-cell name">{{ entry.orderId }}</div>
+										<div class="col history-cell name">
+											<a (click)="showOrderDetails(entry.orderId);">{{ entry.orderId }}</a>
+										</div>
 										<div class="col history-cell date">{{ entry.date }}</div>
 										<div class="col history-cell amount">{{ entry.amount }}</div>
 										<div class="col history-cell notes">
 											<div class="col">
 												<div class="row payment-notes product" *ngFor="let product of entry.paymentNotes.products">
-													{{ product.description }}: {{ product.productId }}
+													Product Type: Cherry Pie
 												</div>
 												<div class="row payment-notes invoiced">
-													Invoiced: {{ entry.paymentNotes.invoiced }}
-												</div>
-												<div class="row payment-notes invoice-status">
-													Invoice Status: {{ entry.paymentNotes.invoiceStatus }}
+													100 units
 												</div>
 												<div class="row payment-notes attachments" *ngIf="entry.paymentNotes.attachments.length; else no_attachments">
 													Attachments: {{ entry.paymentNotes.attachments }}
@@ -210,7 +209,7 @@
 
 											</div>
 										</div>
-										<div class="col history-cell status">{{ entry.status }}</div>
+										<div class="col history-cell status">Done!</div>
 									</div>
 								</div>
 
@@ -238,9 +237,7 @@
 	class="modal fade" 
 	id="producer_verify_modal" 
 	tabindex="-1" 
-	role="dialog" 
-	aria-label="Store this card on your account profile for future payments" 
-	aria-hidden="true"
+	role="dialog"
 >
 	<div class="modal-dialog modal-dialog-centered" role="document">
 		<div class="modal-content">
@@ -249,6 +246,35 @@
 			</div>
 			<div class="modal-body">
 				<ngx-loading [show]="true" [config]="{ backdropBackgroundColour: '#61a83e', fullScreenBackdrop: false }"></ngx-loading>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- Order Details -->
+<div 
+	#orderDetailsModal
+	class="modal fade" 
+	id="order_details_modal" 
+	tabindex="-1" 
+	role="document"
+>
+	<div class="modal-dialog modal-dialog-centered" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title">Details for order {{ orderDetails.id }}</h5>
+			</div>
+			<div class="modal-body">
+				<div class="row">
+					<div class="col order-details">
+						<div class="row order-details-entry" *ngFor="let entry of orderDetails.entries">
+							<div class="col-sm-1 col-1 order-detail-check">&#10004;</div>
+							<div class="col-sm-3 col-2 order-detail-timestamp">{{ entry.timestamp }}</div>
+							<div class="col-sm-6 col-3 order-detail-stage">{{ entry.stage }}</div>
+							<div class="col-sm-2 col-4 order-detail-status">{{ entry.status === 'done' ? 'Done!' : 'Pending' }}</div>
+						</div>
+					</div>
+				</div>
 			</div>
 			<!-- <div class="modal-footer">
 				<button type="button" class="btn btn-primary" (click)="saveCardToVault();">Save</button>

@@ -95,6 +95,11 @@ div.tab-panes {
 
 div.history-cell {
     padding: 14px;
+    font-size: 12px;
+
+    a {
+        cursor: pointer;
+    }
 }
 
 div.history-cell.name,
@@ -193,5 +198,27 @@ div.producer-verified {
 }
 
 h5.order-total-amount {
+    color: $highlight_color;
+}
+
+div.order-detail-check {
+    font-size: 20px;
+    color: $highlight_color;
+}
+div.order-detail-timestamp {
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 0px;
+    padding-right: 0px;
+    font-size: 12px;
+    color: $offset_color;
+}
+
+div.order-detail-status {
+    color: $highlight_color;
+}
+
+div.history-cell.status {
+    font-size: 16px;
     color: $highlight_color;
 }
