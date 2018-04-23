@@ -123,8 +123,8 @@ div.history-cell.date {
     max-width: 160px;
 }
 
-div.history-heading.actions,
-div.history-cell.actions {
+div.history-heading.status,
+div.history-cell.status {
     max-width: 240px;
 }
 
@@ -166,6 +166,18 @@ form[name="place_order_form"] {
 
 form[name="place_order_form"] > .row {
     margin-top: 15px;
+}
+
+div.wallet-balance {
+    margin-top: 40px !important;
+
+    h6 {
+        color: #000000 !important;
+
+        &.user-wallet-balance {
+            color: $highlight_color !important;
+        }
+    }
 }
 
 div.my-company > .row h6 {

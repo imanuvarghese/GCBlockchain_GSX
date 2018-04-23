@@ -29,36 +29,37 @@ export class OrdersComponent implements OnInit {
   @ViewChild('placeOrderForm') placeOrderForm: NgForm;
   @ViewChild('producer') producerSelection: FormControl;
 
-  public historyIncoming: Array<any> = [];
-  public historyOutgoing: Array<any> = [];
+  public history: Array<any> = [];
   public suppliersList: Array<Supplier> = [];
   private supplier = {
     affiliated: [],
     selected: -1
   };
 
-  public processingMessage = null;
+  // Dummy wallet data
+  public testWalletBalance = 10000;
+  public processingMessage = 'test';
 
   public order = {
     productType: null,
     productAmount: null,
     // XXX (chris): this and total need to befixed to change rogrammatically:
-    productPrice: "4",
+    productPrice: '4',
     producer: null,
-    total: "400"
+    total: '400'
   };
   // Dummy strain data
   public productTypes = [
-    {
-      id: 1,
-      name: 'Purple Kush',
-      price_per_unit: 2
-    },
-    {
-      id: 2,
-      name: 'Blue Dream',
-      price_per_unit: 3
-    },
+    // {
+    //   id: 1,
+    //   name: 'Purple Kush',
+    //   price_per_unit: 2
+    // },
+    // {
+    //   id: 2,
+    //   name: 'Blue Dream',
+    //   price_per_unit: 3
+    // },
     {
       id: 3,
       name: 'Cherry Pie',
@@ -71,6 +72,26 @@ export class OrdersComponent implements OnInit {
     private notificationService: NotificationService
   ) {
     this.getProducers();
+
+    // Dummy history data
+    this.history = [
+      {
+        'companyName': 'CannaClinic',
+        'paymentDate': 'Feb. 20, 2018 4:12 pm',
+        'paymentAmount': '1,000',
+        'paymentNotes': {
+          'products': [
+            {
+              'description': '1.5 lbs seed batch',
+              'productID': '23fgYT4LSp'
+            }
+          ],
+          'invoiced': 'Yes',
+          'invoiceStatus': 'PAID',
+          'attachments': []
+        }
+      }
+    ];
   }
 
   ngOnInit() {
@@ -109,27 +130,30 @@ export class OrdersComponent implements OnInit {
     console.log('order =>', this.order);
     jQuery('#producer_verify_modal').modal('show');
 
-    setTimeout(function() {
-      _self.processingMessage = "Transferring funds...";
-      _self.orderService.transferTokens(_self.order.total, _self.order.producer)
-        .then((response) => {
-          console.log('transfer funds response =>', response);
-          jQuery('#producer_verify_modal').modal('hide');
-          _self.notificationService.notify('success', 'Success! The producer was verified and your order has been placed.', false);
-          _self.placeOrderForm.resetForm();
-        })
-        .catch((error) => {
-          console.log('Error transferring funds:', error);
-          jQuery('#producer_verify_modal').modal('hide');
-          _self.notificationService.notify('danger', `Uh oh. There was a problem transferring funds: ${error.messsage}`, false);
-        });
-    }, 3000);
+    // setTimeout(function() {
+    //   _self.processingMessage = "Transferring funds...";
+    //   _self.orderService.transferTokens(_self.order.total, _self.order.producer)
+    //     .then((response) => {
+    //       console.log('transfer funds response =>', response);
+    //       jQuery('#producer_verify_modal').modal('hide');
+    //       _self.notificationService.notify('success', 'Success! The producer was verified and your order has been placed.', false);
+    //       _self.testWalletBalance -= parseInt(_self.order.total);
+    //       _self.placeOrderForm.resetForm();
+    //     })
+    //     .catch((error) => {
+    //       console.log('Error transferring funds:', error);
+    //       jQuery('#producer_verify_modal').modal('hide');
+    //       _self.notificationService.notify('danger', `Uh oh. There was a problem transferring funds: ${error.messsage}`, false);
+    //     });
+    // }, 3000);
 
     // TODO: replace this with promise/observable from api call
-    // setTimeout(function() {
-    //   jQuery('#producer_verify_modal').modal('hide');
-    //   _self.notificationService.notify('success', 'Success! The producer was verified and your order has been placed.', false);
-    // }, 5000);
+    setTimeout(function () {
+      jQuery('#producer_verify_modal').modal('hide');
+      _self.notificationService.notify('success', 'Success! The producer was verified and your order has been placed.', false);
+      _self.testWalletBalance -= parseInt(_self.order.total);
+      _self.placeOrderForm.resetForm();
+    }, 5000);
   }
 
 }

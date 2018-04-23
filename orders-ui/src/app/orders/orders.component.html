@@ -37,6 +37,9 @@
 								<div class="row">
 									Address
 								</div>
+								<div class="row wallet-balance">
+									<h6>Wallet balance:</h6><h6 class="user-wallet-balance">&#160;{{ testWalletBalance }} GSX</h6>
+								</div>
 							</div>
 							<div class="col-sm-6 col-1">
 								<div class="row order-product-type">
@@ -141,7 +144,7 @@
 							</div>
 						</div>
 						<div class="row order-total">
-							<h5>Order total:</h5><h5 class="order-total-amount">&#160;{{ order.total }} GSX</h5>
+							<h5>Order total:</h5><h5 class="order-total-amount" *ngIf="placeOrderForm.valid">&#160;{{ order.total }} GSX</h5>
 						</div>
 						<div class="row orders-place-submit">
 							<button
@@ -174,16 +177,15 @@
 										<div class="col history-heading amount"><h6>Amount</h6></div>
 										<div class="col history-heading notes"><h6>Notes</h6></div>
 										<div class="col history-heading status"><h6>Status</h6></div>
-										<div class="col history-heading actions"><h6>Actions</h6></div>
 									</div>
-									<div class="row incoming-entry" *ngFor="let entry of historyIncoming">
-										<div class="col history-cell name">{{ entry.companyName }}</div>
-										<div class="col history-cell date">{{ entry.paymentDate }}</div>
-										<div class="col history-cell amount">{{ entry.paymentAmount }}</div>
+									<div class="row incoming-entry" *ngFor="let entry of history">
+										<div class="col history-cell name">{{ entry.orderId }}</div>
+										<div class="col history-cell date">{{ entry.date }}</div>
+										<div class="col history-cell amount">{{ entry.amount }}</div>
 										<div class="col history-cell notes">
 											<div class="col">
 												<div class="row payment-notes product" *ngFor="let product of entry.paymentNotes.products">
-													{{ product.description }}: {{ product.productID }}
+													{{ product.description }}: {{ product.productId }}
 												</div>
 												<div class="row payment-notes invoiced">
 													Invoiced: {{ entry.paymentNotes.invoiced }}
@@ -203,7 +205,7 @@
 
 											</div>
 										</div>
-										<div class="col history-cell actions">Actions...</div>
+										<div class="col history-cell status">{{ entry.status }}</div>
 									</div>
 								</div>
 
