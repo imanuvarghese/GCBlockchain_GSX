@@ -1,0 +1,19 @@
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="/">GSX</a>
+    </div>
+    <div class="nav navbar-nav navbar-right">
+        <ul class="list-inline menu">
+          <li><a class="nav-item" [routerLink]="['/']">Home</a></li>
+          <li><a [routerLink]="['/my-account']">My Account</a></li>
+          <li><a [routerLink]="['/orders']">Orders</a></li>
+          <li><a class="logout" (click)="null">Logout</a></li>
+        </ul>
+    </div>
+  </div>
+</nav>
+
+<router-outlet></router-outlet>
+
+<footer id="footer"></footer>

@@ -1,0 +1,303 @@
+<div class="container-fluid content-pane">
+
+	<!-- Pane Title -->
+	<div class="row">
+	    <h1>Orders</h1>
+	</div>
+
+	<!-- Tab Panes -->
+	<div class="row tab-panes">
+		<!-- Tab Headers -->
+		<ul class="nav nav-tabs" id="tab_header" role="tablist">
+			<li class="nav-item">
+				<a class="nav-link active" id="order-tab" data-toggle="tab" href="#orders_place" role="tab" aria-controls="orders_place" aria-selected="false">Place an Order</a>
+      </li>
+      <li class="nav-item">
+				<a class="nav-link" id="history-tab" data-toggle="tab" href="#payments_history" role="tab" aria-controls="payments_history" aria-selected="false">History</a>
+			</li>
+		</ul>
+		<!-- Tab Content -->
+		<div class="tab-content" id="tabs">
+
+			<!-- Place an Order -->
+			<div class="tab-pane fade show active" id="orders_place" role="tabpanel" aria-labelledby="order-tab">
+				<div class="col orders-place">
+					<div class="row">
+						<h5>Place an Order</h5>
+					</div>
+					<form #placeOrderForm="ngForm" name="place_order_form" (ngSubmit)="placeOrder();">
+						<div class="row">
+							<div class="col-sm-6 col-2 my-company">
+								<div class="row">
+									<h6>My Company Info</h6>
+								</div>
+								<div class="row">
+									Mr. Weedsley's House of Ganja
+								</div>
+								<div class="row">
+									Address
+								</div>
+							</div>
+							<div class="col-sm-6 col-1">
+								<div class="row order-product-type">
+									<label for="product_type">Product Type:</label>
+									<select 
+										[(ngModel)]="order.productType"
+										name="product_type" 
+										type="text" 
+										class="form-control product-type" 
+										aria-label="Product type"
+										required
+										#productType="ngModel"
+										[ngClass]="{'invalid-alert': productType.invalid && productType.touched}"
+									>
+										<option value="-1" selected diabled>Select a product type</option>
+									</select>
+									<div *ngIf="productType.invalid && (productType.dirty || productType.touched)"
+										class="invalid-alert-message">
+									
+										<div *ngIf="productType.errors.required">
+											Please choose a product type.
+										</div>
+									
+									</div>
+								</div>
+								<div class="row product-amount">
+									<label for="product_amount">Product Amount:</label>
+									<select 
+										[(ngModel)]="order.productAmount"
+										name="product_amount" 
+										type="text" 
+										class="form-control product-amount" 
+										aria-label="Product amount"
+										required
+										#productAmount="ngModel"
+										[ngClass]="{'invalid-alert': productAmount.invalid && productAmount.touched}"
+									>
+										<option value="-1" selected diabled>Select a product amount</option>
+									</select>
+									<div *ngIf="productAmount.invalid && (productAmount.dirty || productAmount.touched)"
+										class="invalid-alert-message">
+									
+										<div *ngIf="productAmount.errors.required">
+											Please choose a product amount.
+										</div>
+									
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="row order-product-producer">
+							<label for="product_producer">Choose a Producer:</label>
+							<select 
+								[(ngModel)]="order.producer"
+								name="product_producer" 
+								type="text"
+								class="form-control product-producer" 
+								aria-label="Product producer"
+								required
+								#producer="ngModel"
+								[ngClass]="{'invalid-alert': producer.invalid && producer.touched}"
+							>
+								<option value="-1" selected diabled>Select a producer</option>
+							</select>
+							<div *ngIf="producer.invalid && (producer.dirty || producer.touched)"
+								class="invalid-alert-message">
+							
+								<div *ngIf="producer.errors.required">
+									Please choose a producer.
+								</div>
+							
+							</div>
+						</div>
+						<div class="row orders-place-submit">
+							<button
+							type="submit"
+							class="btn btn-secondary orders-place submit"
+							[disabled]="placeOrderForm.invalid"
+							>Place Order</button>
+						</div>
+					</form>
+				</div>
+      </div>
+      
+      <!-- Payment History -->
+			<div class="tab-pane fade" id="payments_history" role="tabpanel" aria-labelledby="history-tab">
+				<div class="col">
+					<!-- Incoming History -->
+					<div class="row payment-history-incoming">
+						<div class="col">
+							<div class="row">
+								<h5>Incoming</h5>
+							</div>
+							<!-- Incomig History Entries -->
+							<div class="row history-content">
+								<!-- <div class="col" *ngIf="historyIncoming.length; else no_incoming"> -->
+								<div class="col">
+									<!-- Table Column Headings -->
+									<div class="row history-heading-titles">
+										<div class="col history-heading name"><h6>Payer</h6></div>
+										<div class="col history-heading date"><h6>Date</h6></div>
+										<div class="col history-heading amount"><h6>Amount</h6></div>
+										<div class="col history-heading notes"><h6>Notes</h6></div>
+										<div class="col history-heading actions"><h6>Actions</h6></div>
+									</div>
+									<div class="row incoming-entry" *ngFor="let entry of historyIncoming">
+										<div class="col history-cell name">{{ entry.companyName }}</div>
+										<div class="col history-cell date">{{ entry.paymentDate }}</div>
+										<div class="col history-cell amount">{{ entry.paymentAmount }}</div>
+										<div class="col history-cell notes">
+											<div class="col">
+												<div class="row payment-notes product" *ngFor="let product of entry.paymentNotes.products">
+													{{ product.description }}: {{ product.productID }}
+												</div>
+												<div class="row payment-notes invoiced">
+													Invoiced: {{ entry.paymentNotes.invoiced }}
+												</div>
+												<div class="row payment-notes invoice-status">
+													Invoice Status: {{ entry.paymentNotes.invoiceStatus }}
+												</div>
+												<div class="row payment-notes attachments" *ngIf="entry.paymentNotes.attachments.length; else no_attachments">
+													Attachments: {{ entry.paymentNotes.attachments }}
+												</div>
+
+												<ng-template #no_attachments>
+													<div class="row payment-notes attachments">
+														Attachments: NONE
+													</div>
+												</ng-template>
+
+											</div>
+										</div>
+										<div class="col history-cell actions">Actions...</div>
+									</div>
+								</div>
+
+								<ng-template #no_incoming>
+									<div class="col">
+										<div class="row no-entries">
+											There are no incoming payments in your history
+										</div>
+									</div>
+								</ng-template>
+
+							</div>
+						</div>
+					</div>
+					<!-- Outgoing History -->
+					<div class="row payment-history-outgoing">
+						<div class="col">
+							<div class="row">
+								<h5>Outgoing</h5>
+							</div>
+							<!-- Outgoing History Entries -->
+							<div class="row history-content">
+									<div class="col" *ngIf="historyOutgoing.length; else no_outgoing">
+										<!-- Table Column Headings -->
+										<div class="row history-heading-titles">
+											<div class="col history-heading name"><h6>Payer</h6></div>
+											<div class="col history-heading date"><h6>Date</h6></div>
+											<div class="col history-heading amount"><h6>Amount</h6></div>
+											<div class="col history-heading notes"><h6>Notes</h6></div>
+											<div class="col history-heading actions"><h6>Actions</h6></div>
+										</div>
+										<div class="row outgoing-entry" *ngFor="let entry of historyOutgoing">
+											<div class="col history-cell name">{{ entry.companyName }}</div>
+											<div class="col history-cell date">{{ entry.paymentDate }}</div>
+											<div class="col history-cell amount">{{ entry.paymentAmount }}</div>
+											<div class="col history-cell notes">
+												<div class="col">
+													<div class="row payment-notes product" *ngFor="let product of entry.paymentNotes.products">
+														{{ product.description }}: {{ product.productID }}
+													</div>
+													<div class="row payment-notes invoiced">
+														Invoiced: {{ entry.paymentNotes.invoiced }}
+													</div>
+													<div class="row payment-notes invoice-status">
+														Invoice Status: {{ entry.paymentNotes.invoiceStatus }}
+													</div>
+													<div class="row payment-notes attachments" *ngIf="entry.paymentNotes.attachments.length; else no_attachments">
+														Attachments: {{ entry.paymentNotes.attachments }}
+													</div>
+	
+													<ng-template #no_attachments>
+														<div class="row payment-notes attachments">
+															Attachments: NONE
+														</div>
+													</ng-template>
+	
+												</div>
+											</div>
+											<div class="col history-cell actions">Actions...</div>
+										</div>
+									</div>
+	
+									<ng-template #no_outgoing>
+										<div class="col">
+											<div class="row no-entries">
+												There are no outgoing payments in your history
+											</div>
+										</div>
+									</ng-template>
+	
+								</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- Modal Dialogs -->
+<!-- Add Payee -->
+<div 
+	#addPayeeModal
+	class="modal fade" 
+	id="add_payee_modal" 
+	tabindex="-1" 
+	role="dialog" 
+	aria-label="Add a new payee to your account" 
+	aria-hidden="true"
+>
+	<div class="modal-dialog modal-dialog-centered" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title">Adding New Payee</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<form 
+				#addPayeeForm="ngForm" 
+				name="add_payee_form" 
+				(ngSubmit)="addPayee();"
+			>
+				<div class="modal-body">
+					<!-- Select A Supplier To Add As Payee -->
+					<select
+						class="form-control"
+						id="select_supplier"
+						name="select_supplier"
+						[(ngModel)]="supplier.selected"
+						[ngClass]="{'invalid-alert': supplier.selected.invalid && supplier.selected.touched || supplier.selected < 0 && supplier.selected.touched}"
+						required
+					>
+						<option value="-1">Select a supplier to add as payee</option>
+						<option *ngFor="let supplier of suppliersList; index as i" [value]="i">{{ supplier.username }}</option>
+					</select>
+					<div *ngIf="supplier.selected.invalid && supplier.selected.touched || supplier.selected < 0 && supplier.selected.touched"
+													class="invalid-alert-message">					
+						<div *ngIf="supplier.selected.errors.required">
+							Please select a valid payee.
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="submit" class="btn btn-primary" [disabled]="addPayeeForm.invalid || supplier.selected < 0">Add</button>
+					<button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="resetForm('add_payee');">Cancel</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,173 @@
+$primary_color: #333333;
+$offset_color: #999999;
+$highlight_color: #8ec641;
+$alert_color: #ff0000;
+$border_color: #dee2e6;
+$dark_green: #046938;
+
+div.tab-panes {
+    max-width: 1280px;
+    margin: auto;
+}
+
+div.payment-actors-payees,
+div.payment-actors-payers,
+div.payment-history-incoming,
+div.payment-history-outgoing,
+div.payee-entry,
+div.payer-entry,
+div.history-content,
+div.orders-place,
+div.my-company {
+    border-radius: 4px;
+    border: 1px solid #dee2e6;
+}
+
+div.payment-actors-payees,
+div.payment-actors-payers,
+div.payment-history-incoming,
+div.payment-history-outgoing,
+div.payee-entry,
+div.payer-entry,
+div.orders-place,
+div.my-company {
+    padding: 14px;
+}
+
+div.payment-actors-payees,
+div.payment-history-incoming {
+    margin-bottom: 25px;
+}
+
+div.payee-content,
+div.payer-content,
+div.history-content {
+    margin-top: 15px;
+}
+
+div.history-heading-titles,
+div.incoming-entry:not(:last-child),
+div.outgoing-entry:not(:last-child) {
+    border-bottom: 1px solid #dee2e6;
+}
+
+div.history-heading-titles {
+    padding-top: 15px;
+}
+
+div.payee-entry,
+div.payer-entry {
+    margin-bottom: 15px;
+}
+
+div.incoming-entry,
+div.outgoing-entry {
+    margin-bottom: 0px;
+    padding: 0px;
+}Address
+
+div.payee-info,
+div.payer-info,
+div.payment-amount {
+    font-weight: bold;
+}
+
+div.payee-info .row,
+div.payer-info .row {
+    margin: 0px;
+}
+
+div.payee-logo,
+div.payer-logo {
+    padding: 0px;
+    width: 100%;
+}
+
+img.payee.company-logo,
+img.payer.company-logo {
+    width: 96px;
+    border-radius: 48px;
+}
+
+div.tab-panes {
+    margin-bottom: 1.5em;
+}
+
+div.history-cell {
+    padding: 14px;
+}
+
+div.history-cell.name,
+div.history-cell.date,
+div.history-cell.amount,
+div.history-cell.notes {
+    border-right: 1px solid #dee2e6;
+}
+
+div.history-heading.name,
+div.history-cell.name {
+    max-width: 260px;
+}
+
+div.history-heading h6 {
+    font-weight: bold;
+}
+
+div.history-heading.amount,
+div.history-cell.amount {
+    max-width: 160px;
+}
+
+div.history-heading.date,
+div.history-cell.date {
+    max-width: 160px;
+}
+
+div.history-heading.actions,
+div.history-cell.actions {
+    max-width: 240px;
+}
+
+div.no-entries {
+    padding: 15px;
+}
+
+div.circle {
+    cursor: pointer;
+    position: relative;
+    top: 12px;
+    display: inline-block;
+    width: 50px;
+    height: 0;
+    padding: 25px 0;
+    border-radius: 50%;
+    color: white;
+    font-size: 48px;
+    text-align: center;
+    background: $border_color;
+}
+
+div.circle > svg {
+    position: relative;
+    top: -34px;
+    width: 0.5em;
+}
+
+// Place an order form
+div.orders-place {
+    .row {
+        margin: 0px;
+    }
+}
+
+form[name="place_order_form"] {
+    width: 100%;
+}
+
+form[name="place_order_form"] > .row {
+    margin-top: 15px;
+}
+
+div.my-company > .row h6 {
+    color: #999999;
+}
