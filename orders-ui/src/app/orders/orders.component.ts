@@ -36,11 +36,16 @@ export class OrdersComponent implements OnInit {
     affiliated: [],
     selected: -1
   };
+
+  public processingMessage = null;
+
   public order = {
     productType: null,
     productAmount: null,
+    // XXX (chris): this and total need to befixed to change rogrammatically:
+    productPrice: "4",
     producer: null,
-    total: null
+    total: "400"
   };
   // Dummy strain data
   public productTypes = [
@@ -99,16 +104,32 @@ export class OrdersComponent implements OnInit {
 
   public placeOrder(): void {
     const _self = this;
+
+    this.processingMessage = "Verifying producer...";
     console.log('order =>', this.order);
     jQuery('#producer_verify_modal').modal('show');
 
-    this.orderService.transferTokens(this.order.total)
+    setTimeout(function() {
+      _self.processingMessage = "Transferring funds...";
+      _self.orderService.transferTokens(_self.order.total, _self.order.producer)
+        .then((response) => {
+          console.log('transfer funds response =>', response);
+          jQuery('#producer_verify_modal').modal('hide');
+          _self.notificationService.notify('success', 'Success! The producer was verified and your order has been placed.', false);
+          _self.placeOrderForm.resetForm();
+        })
+        .catch((error) => {
+          console.log('Error transferring funds:', error);
+          jQuery('#producer_verify_modal').modal('hide');
+          _self.notificationService.notify('danger', `Uh oh. There was a problem transferring funds: ${error.messsage}`, false);
+        });
+    }, 3000);
 
     // TODO: replace this with promise/observable from api call
-    setTimeout(function() {
-      jQuery('#producer_verify_modal').modal('hide');
-      _self.notificationService.notify('success', 'Success! The producer was verified and your order has been placed.', false);
-    }, 5000);
+    // setTimeout(function() {
+    //   jQuery('#producer_verify_modal').modal('hide');
+    //   _self.notificationService.notify('success', 'Success! The producer was verified and your order has been placed.', false);
+    // }, 5000);
   }
 
 }

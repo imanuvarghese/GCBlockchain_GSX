@@ -260,6 +260,31 @@ export class DataService<Type> {
             .catch(this.handleError);
     }
 
+    public transferFunds (
+        amount: string,
+        username: string
+    ): Observable<any> {
+        console.log('transferFunds ', this.actionUrl + 'token/transfer');
+
+        let params = new HttpParams()
+            .set('amount', amount)
+            .set('username', username);
+
+        let httpOptions = {
+            headers: new HttpHeaders({
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+                'Authorization': `Token ${this.testUser.token}`
+            })
+        };
+
+        console.log('transfer funds request =>', params);
+
+        return this.http.post(this.actionUrl + 'token/transfer', params, httpOptions)
+            .map(data => { return data; })
+            .catch(this.handleError);
+    }
+
     /**
      * Save a credit card to the target user's account profile
      * @param cardHolder {String} - The first and last name of the card owner as printed on the credit card

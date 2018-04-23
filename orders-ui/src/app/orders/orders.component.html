@@ -53,7 +53,7 @@
 										orderSelection
 									>
 										<option value="-1" selected diabled>Select a product type</option>
-										<option value="{{ product.id }}" *ngFor="let product of productTypes">{{ product.name }}</option>
+										<option value="{{ product.id }}" *ngFor="let product of productTypes">{{ product.name }} - {{ product.price_per_unit }} GSX per unit</option>
 									</select>
 									<div *ngIf="productType.invalid && (productType.dirty || productType.touched)"
 										class="invalid-alert-message">
@@ -86,7 +86,7 @@
 										orderSelection
 									>
 										<option value="-1" selected diabled>Select a product amount</option>
-										<option valie="100">100</option>
+										<option value="100">100</option>
 									</select>
 									<div *ngIf="productAmount.invalid && (productAmount.dirty || productAmount.touched)"
 										class="invalid-alert-message">
@@ -139,6 +139,9 @@
 								</div>
 							
 							</div>
+						</div>
+						<div class="row order-total">
+							<h5>Order total:</h5><h5 class="order-total-amount">&#160;{{ order.total }} GSX</h5>
 						</div>
 						<div class="row orders-place-submit">
 							<button
@@ -235,7 +238,7 @@
 	<div class="modal-dialog modal-dialog-centered" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h5 class="modal-title">Please wait while we verify the producer...</h5>
+				<h5 class="modal-title">{{ processingMessage }}</h5>
 			</div>
 			<div class="modal-body">
 				<ngx-loading [show]="true" [config]="{ backdropBackgroundColour: '#61a83e', fullScreenBackdrop: false }"></ngx-loading>

@@ -13,10 +13,14 @@ export class OrderService {
     }
 
     public getProducers(): Promise<any> {
-        return this.dataService.getAll('/suppliers/list').toPromise();
+        return this.dataService.getAll('suppliers/list').toPromise();
     }
 
     public getSupplierInfo(username: string): Promise<any> {
-        return this.dataService.getAll(`/suppliers/${username}`).toPromise();
+        return this.dataService.getAll(`suppliers/${username}`).toPromise();
+    }
+
+    public transferTokens(amount: string, username: string): Promise<any> {
+        return this.dataService.transferFunds(amount, username).toPromise();
     }
 }
