@@ -50,6 +50,7 @@
 										required
 										#productType="ngModel"
 										[ngClass]="{'invalid-alert': productType.invalid && productType.touched}"
+										orderSelection
 									>
 										<option value="-1" selected diabled>Select a product type</option>
 										<option value="{{ product.id }}" *ngFor="let product of productTypes">{{ product.name }}</option>
@@ -58,6 +59,14 @@
 										class="invalid-alert-message">
 									
 										<div *ngIf="productType.errors.required">
+											Please choose a product type.
+										</div>
+									
+									</div>
+									<div *ngIf="productType.invalid && productType.touched"
+										class="invalid-alert-message">
+									
+										<div *ngIf="productType.errors.invalidSelection">
 											Please choose a product type.
 										</div>
 									
@@ -74,6 +83,7 @@
 										required
 										#productAmount="ngModel"
 										[ngClass]="{'invalid-alert': productAmount.invalid && productAmount.touched}"
+										orderSelection
 									>
 										<option value="-1" selected diabled>Select a product amount</option>
 									</select>
@@ -81,6 +91,14 @@
 										class="invalid-alert-message">
 									
 										<div *ngIf="productAmount.errors.required">
+											Please choose a product amount.
+										</div>
+									
+									</div>
+									<div *ngIf="productAmount.invalid && productAmount.touched"
+										class="invalid-alert-message">
+									
+										<div *ngIf="productAmount.errors.invalidSelection">
 											Please choose a product amount.
 										</div>
 									
@@ -99,6 +117,7 @@
 								required
 								#producer="ngModel"
 								[ngClass]="{'invalid-alert': producer.invalid && producer.touched}"
+								orderSelection
 							>
 								<option value="-1" selected diabled>Select a producer</option>
 								<option value="{{ supplier.username }}" *ngFor="let supplier of suppliersList">{{ supplier.company ? supplier.company : supplier.username }}</option>
@@ -108,6 +127,14 @@
 							
 								<div *ngIf="producer.errors.required">
 									Please choose a producer.
+								</div>
+							
+							</div>
+							<div *ngIf="producer.invalid && producer.touched"
+								class="invalid-alert-message">
+							
+								<div *ngIf="producer.errors.invalidSelection">
+									Please choose a product amount.
 								</div>
 							
 							</div>
