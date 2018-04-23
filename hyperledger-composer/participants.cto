@@ -1,0 +1,81 @@
+/**
+ * Greenstream business network definition.
+ */
+namespace org.greenstream.participants
+
+/**
+ * A Gatekeeper participant
+ */
+participant gatekeeper identified by gatekeeperId {
+  o String gatekeeperId default = "GAK0001"
+  o String companyName default = "Greenstream"
+}
+ 
+/**
+ * An Auditor participant
+ */
+participant auditor identified by auditorId {
+  o String auditorId default = "AUD0001"
+}
+
+/**
+ * A Cultivator participant
+ */
+participant cultivator identified by cultivatorId {
+  o String cultivatorId
+  o String companyName
+  o String companyAddress
+  o String companyPhone
+  o String companyEmail
+  o Double balance
+}
+
+/**
+ * A Manufacturer participant
+ */
+participant manufacturer identified by manufacturerId {
+  o String manufacturerId
+  o String companyName
+  o String companyAddress
+  o String companyPhone
+  o String companyEmail
+  o Double balance
+}
+
+/**
+ * A Distributor participant
+ */
+participant distributor identified by distributorId {
+  o String distributorId
+  o String companyName
+  o String companyAddress
+  o String companyPhone
+  o String companyEmail
+  o Double balance
+}
+
+/**
+ * A Dispensary participant
+ */
+participant dispensary identified by dispensaryId {
+  o String dispensaryId
+  o String companyName
+  o String companyAddress
+  o String companyPhone
+  o String companyEmail
+  o Double balance
+}
+
+/**
+ * A Consumer participant
+ */
+participant consumer identified by consumerId {
+  o String consumerId
+  o String consumerName
+  o String email
+  o Double balance
+}
+
+
+
+

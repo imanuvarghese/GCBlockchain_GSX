@@ -1,0 +1,96 @@
+/**
+ * Greenstream business network definition.
+ */
+namespace org.greenstream.transactions
+
+import org.greenstream.participants.cultivator
+import org.greenstream.participants.manufacturer
+import org.greenstream.participants.dispensary
+import org.greenstream.participants.distributor
+import org.greenstream.participants.consumer
+
+import org.greenstream.assets.plant
+import org.greenstream.assets.product
+import org.greenstream.assets.cropContainer
+import org.greenstream.assets.productContainer
+import org.greenstream.assets.wallet
+
+ 
+
+transaction RegisterCultivator {
+  --> cultivator participant  
+}
+
+transaction RegisterManufacturer {
+  --> manufacturer participant  
+}
+
+transaction RegisterDispensary {
+  --> dispensary participant  
+}
+
+transaction ShipCrop {
+  --> plant asset
+  --> cultivator owner
+}
+
+transaction RegisterPlant {
+  --> plant asset
+  --> cultivator owner
+}
+
+transaction RegisterProduct {
+  --> product asset
+  --> manufacturer owner
+}
+
+transaction ShipCropContainer {
+  --> cropContainer asset
+  --> cultivator sender
+  --> manufacturer receiver
+}
+
+transaction AcceptCropContainer {
+  --> cropContainer asset
+  --> cultivator sender
+  --> manufacturer receiver
+}
+
+transaction ShipProductContainer {
+  --> productContainer asset
+  --> manufacturer sender
+  --> dispensary receiver
+}
+
+transaction AcceptProductContainer {
+  --> productContainer asset
+  --> manufacturer sender
+  --> dispensary receiver
+}
+
+transaction purchaseProduct {
+  --> product asset
+  --> dispensary seller
+  --> consumer buyer
+}
+
+transaction DepositCoin {
+  --> wallet wallet
+  o Double amount
+}
+
+transaction WithdrawCoin {
+  --> wallet wallet
+  o Double amount
+}
+
+transaction TransferCoin {
+  --> wallet sender
+  --> wallet receiver
+  o Double amount
+}
+
+event TransactionCompleted {
+  o String msg
+}
+

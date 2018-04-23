@@ -1,0 +1,127 @@
+/**
+ * Greenstream business network definition.
+ */
+
+namespace org.greenstream.assets
+import org.greenstream.participants.cultivator
+import org.greenstream.participants.manufacturer
+import org.greenstream.participants.dispensary
+import org.greenstream.participants.distributor
+import org.greenstream.participants.consumer
+
+
+/**
+ * The category type for cannabis
+ */
+enum CannabisType {
+  o MEDICINAL
+  o RECREATIONAL
+} 
+
+/**
+ * The product type for cannabis
+ */
+enum ProductionType {
+  o SMOKING 
+  o VAPORIZING
+  o EDIBLE
+  o EXTRACTS
+  o TRANSDERMAL 
+  o SUPPOSITORY
+  o TOPICAL
+  o INGESTATION
+  o BEVERAGE
+  o DABBER
+}
+
+/**
+ * The movement status for cannabis plants
+ */
+enum PlantMovementStatus {
+  o IN_CROP
+  o IN_SHIPPING
+  o IN_MANUFACTURING
+}
+
+/**
+ * The movement status for a shipping container
+ */
+enum ContainerStatus {
+  o STAMPED
+  o SHIPPED
+  o RECEIVED
+}
+
+/**
+ * The movement status for cannabis products
+ */
+enum ProductState{
+  o IN_DISTRIBUTION
+  o FOR_SALE
+  o IN_CONSUMPTION
+}
+
+/**
+ * The asset model for cannabis products
+ */
+asset product identified by productId {
+  o String productId
+  o String seedBatchId
+  o String plantId
+  o Double price
+  o CannabisType plantType
+  o ProductState productState
+  --> manufacturer owner
+}
+
+/**
+ * The asset model for cannabis plant
+ */
+asset plant identified by plantId {
+  o String plantId
+  o String seedBatchId
+  o CannabisType plantType
+  o PlantMovementStatus plantStatus
+  --> cultivator owner
+}
+
+/**
+ * The asset model for cannabis crop shipping container
+ */
+asset cropContainer identified by containerId {
+  o String containerId
+  o plant[] plants
+  o ContainerStatus containerStatus
+  o Double price
+}
+
+/**
+ * The asset model for cannabis product shipping container
+ */
+asset productContainer identified by containerId {
+  o String containerId
+  o product[] products
+  o ContainerStatus containerStatus
+  o Double price
+}
+
+asset wallet identified by id {
+  o String id
+  o Double amount
+  --> consumer owner
+  o CoinTransaction[] transactions optional
+}
+
+concept CoinTransaction {
+  o Double amount
+  o CoinTransactionType type
+}
+
+enum CoinTransactionType {
+  o DEPOSIT
+  o WITHDRAW
+  o SEND
+  o RECEIVE
+}
+
+
