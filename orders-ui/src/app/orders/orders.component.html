@@ -128,7 +128,7 @@
 					<div class="row payment-history-incoming">
 						<div class="col">
 							<div class="row">
-								<h5>Incoming</h5>
+								<h5>Order History</h5>
 							</div>
 							<!-- Incomig History Entries -->
 							<div class="row history-content">
@@ -136,10 +136,11 @@
 								<div class="col">
 									<!-- Table Column Headings -->
 									<div class="row history-heading-titles">
-										<div class="col history-heading name"><h6>Payer</h6></div>
+										<div class="col history-heading name"><h6>Order ID</h6></div>
 										<div class="col history-heading date"><h6>Date</h6></div>
 										<div class="col history-heading amount"><h6>Amount</h6></div>
 										<div class="col history-heading notes"><h6>Notes</h6></div>
+										<div class="col history-heading status"><h6>Status</h6></div>
 										<div class="col history-heading actions"><h6>Actions</h6></div>
 									</div>
 									<div class="row incoming-entry" *ngFor="let entry of historyIncoming">
@@ -182,65 +183,6 @@
 								</ng-template>
 
 							</div>
-						</div>
-					</div>
-					<!-- Outgoing History -->
-					<div class="row payment-history-outgoing">
-						<div class="col">
-							<div class="row">
-								<h5>Outgoing</h5>
-							</div>
-							<!-- Outgoing History Entries -->
-							<div class="row history-content">
-									<div class="col" *ngIf="historyOutgoing.length; else no_outgoing">
-										<!-- Table Column Headings -->
-										<div class="row history-heading-titles">
-											<div class="col history-heading name"><h6>Payer</h6></div>
-											<div class="col history-heading date"><h6>Date</h6></div>
-											<div class="col history-heading amount"><h6>Amount</h6></div>
-											<div class="col history-heading notes"><h6>Notes</h6></div>
-											<div class="col history-heading actions"><h6>Actions</h6></div>
-										</div>
-										<div class="row outgoing-entry" *ngFor="let entry of historyOutgoing">
-											<div class="col history-cell name">{{ entry.companyName }}</div>
-											<div class="col history-cell date">{{ entry.paymentDate }}</div>
-											<div class="col history-cell amount">{{ entry.paymentAmount }}</div>
-											<div class="col history-cell notes">
-												<div class="col">
-													<div class="row payment-notes product" *ngFor="let product of entry.paymentNotes.products">
-														{{ product.description }}: {{ product.productID }}
-													</div>
-													<div class="row payment-notes invoiced">
-														Invoiced: {{ entry.paymentNotes.invoiced }}
-													</div>
-													<div class="row payment-notes invoice-status">
-														Invoice Status: {{ entry.paymentNotes.invoiceStatus }}
-													</div>
-													<div class="row payment-notes attachments" *ngIf="entry.paymentNotes.attachments.length; else no_attachments">
-														Attachments: {{ entry.paymentNotes.attachments }}
-													</div>
-	
-													<ng-template #no_attachments>
-														<div class="row payment-notes attachments">
-															Attachments: NONE
-														</div>
-													</ng-template>
-	
-												</div>
-											</div>
-											<div class="col history-cell actions">Actions...</div>
-										</div>
-									</div>
-	
-									<ng-template #no_outgoing>
-										<div class="col">
-											<div class="row no-entries">
-												There are no outgoing payments in your history
-											</div>
-										</div>
-									</ng-template>
-	
-								</div>
 						</div>
 					</div>
 				</div>
