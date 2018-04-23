@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm, FormsModule } from '@angular/forms';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
+import { OrderService } from './order.service';
 // import { Participant, Payment } from '../org.greenstream.b2b.system';
 // import { AccountHolder, AccountUser } from '../org.greenstream.participants';
 // import { Payer, Payee } from '../org.greenstream.payment';
@@ -31,12 +32,50 @@ export class OrdersComponent implements OnInit {
     productAmount: null,
     producer: null
   };
+  // Dummy strain data
+  public productTypes = [
+    {
+      id: 1,
+      name: 'Purple Kush'
+    },
+    {
+      id: 2,
+      name: 'Blue Dream'
+    },
+    {
+      id: 3,
+      name: 'Cherry Pie'
+    }
+  ];
 
-  constructor() { }
+  constructor(private orderService: OrderService) {
+    this.getProducers();
+  }
 
   ngOnInit() {
   }
 
-  public placeOrder() { }
+  public getProducers(): void {
+    this.orderService.getProducers()
+      .then((supplier_list) => {
+        console.log('get producers response =>', supplier_list);
+        supplier_list.forEach((supplier) => {
+          this.orderService.getSupplierInfo(supplier.username)
+            .then((supplier_info) => {
+              console.log('supplier info =>', supplier_info);
+              // TODO: add conditional to check if suppliers = true
+              this.suppliersList.push(supplier_info.profile);
+            })
+            .catch((error) => {
+              console.log('Error getting supplier info:', error);
+            });
+        });
+      })
+      .catch((error) => {
+        console.log('Error getting suppliers list:', error);
+      });
+  }
+
+  public placeOrder(): void { }
 
 }

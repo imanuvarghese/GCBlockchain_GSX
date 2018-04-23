@@ -52,6 +52,7 @@
 										[ngClass]="{'invalid-alert': productType.invalid && productType.touched}"
 									>
 										<option value="-1" selected diabled>Select a product type</option>
+										<option value="{{ product.id }}" *ngFor="let product of productTypes">{{ product.name }}</option>
 									</select>
 									<div *ngIf="productType.invalid && (productType.dirty || productType.touched)"
 										class="invalid-alert-message">
@@ -100,6 +101,7 @@
 								[ngClass]="{'invalid-alert': producer.invalid && producer.touched}"
 							>
 								<option value="-1" selected diabled>Select a producer</option>
+								<option value="{{ supplier.username }}" *ngFor="let supplier of suppliersList">{{ supplier.company ? supplier.company : supplier.username }}</option>
 							</select>
 							<div *ngIf="producer.invalid && (producer.dirty || producer.touched)"
 								class="invalid-alert-message">
