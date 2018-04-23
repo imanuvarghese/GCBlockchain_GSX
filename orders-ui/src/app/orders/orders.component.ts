@@ -36,7 +36,7 @@ export class OrdersComponent implements OnInit {
     selected: -1
   };
 
-  // Dummy wallet data
+  // Wallet data
   public walletBalance = null;
   public testWalletBalance = 10000;
   public processingMessage = 'test';
@@ -49,7 +49,7 @@ export class OrdersComponent implements OnInit {
     producer: null,
     total: '4000'
   };
-  // Dummy strain data
+  // Strain data
   public productTypes = [
     // {
     //   id: 1,
@@ -68,7 +68,7 @@ export class OrdersComponent implements OnInit {
     }
   ];
 
-  // Dummy data for order details
+  // Data for order details
   public orderDetails = {
     id: null,
     entries: [
@@ -122,7 +122,7 @@ export class OrdersComponent implements OnInit {
     this.getProducers();
     this.getWalletBalance();
 
-    // Dummy history data
+    // History data
     this.history = [
       {
         'orderId': '23fgYT4LSp',
