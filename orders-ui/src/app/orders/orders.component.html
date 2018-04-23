@@ -35,8 +35,16 @@
 									Mr. Weedsley's House of Ganja
 								</div>
 								<div class="row">
-									Address
+									<!-- Address -->
 								</div>
+								<div class="row wallet-balance" *ngIf="walletBalance !== null; else loading_balance">
+									<h6>Wallet balance:</h6><h6 class="user-wallet-balance">&#160;{{ walletBalance }} GSX</h6>
+								</div>
+								<ng-template #loading_balance>
+									<div class="row wallet-balance">
+										Loading balance...
+									</div>
+								</ng-template>
 							</div>
 							<div class="col-sm-6 col-1">
 								<div class="row order-product-type">
@@ -50,13 +58,23 @@
 										required
 										#productType="ngModel"
 										[ngClass]="{'invalid-alert': productType.invalid && productType.touched}"
+										orderSelection
 									>
 										<option value="-1" selected diabled>Select a product type</option>
+										<option value="{{ product.id }}" *ngFor="let product of productTypes">{{ product.name }} - {{ product.price_per_unit }} GSX per unit</option>
 									</select>
 									<div *ngIf="productType.invalid && (productType.dirty || productType.touched)"
 										class="invalid-alert-message">
 									
 										<div *ngIf="productType.errors.required">
+											Please choose a product type.
+										</div>
+									
+									</div>
+									<div *ngIf="productType.invalid && productType.touched"
+										class="invalid-alert-message">
+									
+										<div *ngIf="productType.errors.invalidSelection">
 											Please choose a product type.
 										</div>
 									
@@ -73,13 +91,23 @@
 										required
 										#productAmount="ngModel"
 										[ngClass]="{'invalid-alert': productAmount.invalid && productAmount.touched}"
+										orderSelection
 									>
 										<option value="-1" selected diabled>Select a product amount</option>
+										<option value="100">100</option>
 									</select>
 									<div *ngIf="productAmount.invalid && (productAmount.dirty || productAmount.touched)"
 										class="invalid-alert-message">
 									
 										<div *ngIf="productAmount.errors.required">
+											Please choose a product amount.
+										</div>
+									
+									</div>
+									<div *ngIf="productAmount.invalid && productAmount.touched"
+										class="invalid-alert-message">
+									
+										<div *ngIf="productAmount.errors.invalidSelection">
 											Please choose a product amount.
 										</div>
 									
@@ -98,8 +126,10 @@
 								required
 								#producer="ngModel"
 								[ngClass]="{'invalid-alert': producer.invalid && producer.touched}"
+								orderSelection
 							>
 								<option value="-1" selected diabled>Select a producer</option>
+								<option value="{{ supplier.profile.username }}" *ngFor="let supplier of suppliersList">{{ supplier.profile.company ? supplier.profile.company : supplier.profile.username }}</option>
 							</select>
 							<div *ngIf="producer.invalid && (producer.dirty || producer.touched)"
 								class="invalid-alert-message">
@@ -109,6 +139,17 @@
 								</div>
 							
 							</div>
+							<div *ngIf="producer.invalid && producer.touched"
+								class="invalid-alert-message">
+							
+								<div *ngIf="producer.errors.invalidSelection">
+									Please choose a producer.
+								</div>
+							
+							</div>
+						</div>
+						<div class="row order-total">
+							<h5>Order total:</h5><h5 class="order-total-amount" *ngIf="placeOrderForm.valid">&#160;{{ order.total }} GSX</h5>
 						</div>
 						<div class="row orders-place-submit">
 							<button
@@ -128,7 +169,7 @@
 					<div class="row payment-history-incoming">
 						<div class="col">
 							<div class="row">
-								<h5>Incoming</h5>
+								<h5>Order History</h5>
 							</div>
 							<!-- Incomig History Entries -->
 							<div class="row history-content">
@@ -136,26 +177,25 @@
 								<div class="col">
 									<!-- Table Column Headings -->
 									<div class="row history-heading-titles">
-										<div class="col history-heading name"><h6>Payer</h6></div>
+										<div class="col history-heading name"><h6>Order ID</h6></div>
 										<div class="col history-heading date"><h6>Date</h6></div>
 										<div class="col history-heading amount"><h6>Amount</h6></div>
 										<div class="col history-heading notes"><h6>Notes</h6></div>
-										<div class="col history-heading actions"><h6>Actions</h6></div>
+										<div class="col history-heading status"><h6>Status</h6></div>
 									</div>
-									<div class="row incoming-entry" *ngFor="let entry of historyIncoming">
-										<div class="col history-cell name">{{ entry.companyName }}</div>
-										<div class="col history-cell date">{{ entry.paymentDate }}</div>
-										<div class="col history-cell amount">{{ entry.paymentAmount }}</div>
+									<div class="row incoming-entry" *ngFor="let entry of history">
+										<div class="col history-cell name">
+											<a (click)="showOrderDetails(entry.orderId);">{{ entry.orderId }}</a>
+										</div>
+										<div class="col history-cell date">{{ entry.date }}</div>
+										<div class="col history-cell amount">{{ entry.amount }}</div>
 										<div class="col history-cell notes">
 											<div class="col">
 												<div class="row payment-notes product" *ngFor="let product of entry.paymentNotes.products">
-													{{ product.description }}: {{ product.productID }}
+													Product Type: Cherry Pie
 												</div>
 												<div class="row payment-notes invoiced">
-													Invoiced: {{ entry.paymentNotes.invoiced }}
-												</div>
-												<div class="row payment-notes invoice-status">
-													Invoice Status: {{ entry.paymentNotes.invoiceStatus }}
+													100 units
 												</div>
 												<div class="row payment-notes attachments" *ngIf="entry.paymentNotes.attachments.length; else no_attachments">
 													Attachments: {{ entry.paymentNotes.attachments }}
@@ -169,7 +209,7 @@
 
 											</div>
 										</div>
-										<div class="col history-cell actions">Actions...</div>
+										<div class="col history-cell status">Done!</div>
 									</div>
 								</div>
 
@@ -184,65 +224,6 @@
 							</div>
 						</div>
 					</div>
-					<!-- Outgoing History -->
-					<div class="row payment-history-outgoing">
-						<div class="col">
-							<div class="row">
-								<h5>Outgoing</h5>
-							</div>
-							<!-- Outgoing History Entries -->
-							<div class="row history-content">
-									<div class="col" *ngIf="historyOutgoing.length; else no_outgoing">
-										<!-- Table Column Headings -->
-										<div class="row history-heading-titles">
-											<div class="col history-heading name"><h6>Payer</h6></div>
-											<div class="col history-heading date"><h6>Date</h6></div>
-											<div class="col history-heading amount"><h6>Amount</h6></div>
-											<div class="col history-heading notes"><h6>Notes</h6></div>
-											<div class="col history-heading actions"><h6>Actions</h6></div>
-										</div>
-										<div class="row outgoing-entry" *ngFor="let entry of historyOutgoing">
-											<div class="col history-cell name">{{ entry.companyName }}</div>
-											<div class="col history-cell date">{{ entry.paymentDate }}</div>
-											<div class="col history-cell amount">{{ entry.paymentAmount }}</div>
-											<div class="col history-cell notes">
-												<div class="col">
-													<div class="row payment-notes product" *ngFor="let product of entry.paymentNotes.products">
-														{{ product.description }}: {{ product.productID }}
-													</div>
-													<div class="row payment-notes invoiced">
-														Invoiced: {{ entry.paymentNotes.invoiced }}
-													</div>
-													<div class="row payment-notes invoice-status">
-														Invoice Status: {{ entry.paymentNotes.invoiceStatus }}
-													</div>
-													<div class="row payment-notes attachments" *ngIf="entry.paymentNotes.attachments.length; else no_attachments">
-														Attachments: {{ entry.paymentNotes.attachments }}
-													</div>
-	
-													<ng-template #no_attachments>
-														<div class="row payment-notes attachments">
-															Attachments: NONE
-														</div>
-													</ng-template>
-	
-												</div>
-											</div>
-											<div class="col history-cell actions">Actions...</div>
-										</div>
-									</div>
-	
-									<ng-template #no_outgoing>
-										<div class="col">
-											<div class="row no-entries">
-												There are no outgoing payments in your history
-											</div>
-										</div>
-									</ng-template>
-	
-								</div>
-						</div>
-					</div>
 				</div>
 			</div>
 		</div>
@@ -250,54 +231,55 @@
 </div>
 
 <!-- Modal Dialogs -->
-<!-- Add Payee -->
+<!-- Save Card -->
 <div 
-	#addPayeeModal
+	#verifyProducerModal
 	class="modal fade" 
-	id="add_payee_modal" 
+	id="producer_verify_modal" 
 	tabindex="-1" 
-	role="dialog" 
-	aria-label="Add a new payee to your account" 
-	aria-hidden="true"
+	role="dialog"
 >
 	<div class="modal-dialog modal-dialog-centered" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h5 class="modal-title">Adding New Payee</h5>
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-					<span aria-hidden="true">&times;</span>
-				</button>
+				<h5 class="modal-title">{{ processingMessage }}</h5>
 			</div>
-			<form 
-				#addPayeeForm="ngForm" 
-				name="add_payee_form" 
-				(ngSubmit)="addPayee();"
-			>
-				<div class="modal-body">
-					<!-- Select A Supplier To Add As Payee -->
-					<select
-						class="form-control"
-						id="select_supplier"
-						name="select_supplier"
-						[(ngModel)]="supplier.selected"
-						[ngClass]="{'invalid-alert': supplier.selected.invalid && supplier.selected.touched || supplier.selected < 0 && supplier.selected.touched}"
-						required
-					>
-						<option value="-1">Select a supplier to add as payee</option>
-						<option *ngFor="let supplier of suppliersList; index as i" [value]="i">{{ supplier.username }}</option>
-					</select>
-					<div *ngIf="supplier.selected.invalid && supplier.selected.touched || supplier.selected < 0 && supplier.selected.touched"
-													class="invalid-alert-message">					
-						<div *ngIf="supplier.selected.errors.required">
-							Please select a valid payee.
+			<div class="modal-body">
+				<ngx-loading [show]="true" [config]="{ backdropBackgroundColour: '#61a83e', fullScreenBackdrop: false }"></ngx-loading>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- Order Details -->
+<div 
+	#orderDetailsModal
+	class="modal fade" 
+	id="order_details_modal" 
+	tabindex="-1" 
+	role="document"
+>
+	<div class="modal-dialog modal-dialog-centered" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title">Details for order {{ orderDetails.id }}</h5>
+			</div>
+			<div class="modal-body">
+				<div class="row">
+					<div class="col order-details">
+						<div class="row order-details-entry" *ngFor="let entry of orderDetails.entries">
+							<div class="col-sm-1 col-1 order-detail-check">&#10004;</div>
+							<div class="col-sm-3 col-2 order-detail-timestamp">{{ entry.timestamp }}</div>
+							<div class="col-sm-6 col-3 order-detail-stage">{{ entry.stage }}</div>
+							<div class="col-sm-2 col-4 order-detail-status">{{ entry.status === 'done' ? 'Done!' : 'Pending' }}</div>
 						</div>
 					</div>
 				</div>
-				<div class="modal-footer">
-					<button type="submit" class="btn btn-primary" [disabled]="addPayeeForm.invalid || supplier.selected < 0">Add</button>
-					<button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="resetForm('add_payee');">Cancel</button>
-				</div>
-			</form>
+			</div>
+			<!-- <div class="modal-footer">
+				<button type="button" class="btn btn-primary" (click)="saveCardToVault();">Save</button>
+				<button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="resetForm('add_funds');">No Thanks</button>
+			</div> -->
 		</div>
 	</div>
 </div>
