@@ -17,9 +17,26 @@ import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 })
 export class OrdersComponent implements OnInit {
 
+  @ViewChild('placeOrderForm') placeOrderForm: NgForm;
+
+  public historyIncoming: Array<any> = [];
+  public historyOutgoing: Array<any> = [];
+  public suppliersList: Array<any> = [];
+  private supplier = {
+    affiliated: [],
+    selected: -1
+  };
+  public order = {
+    productType: null,
+    productAmount: null,
+    producer: null
+  };
+
   constructor() { }
 
   ngOnInit() {
   }
+
+  public placeOrder() { }
 
 }
