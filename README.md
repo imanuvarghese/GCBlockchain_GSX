@@ -9,12 +9,6 @@ A hackathon subsidiary of [Greenstream Technology Inc](www.greenstream.tech)
 
 Team Members : Manu Varghese, Jim Anastassiou, Christopher Lackey, Iuri Matias
 
-# New Features!
-----
-
-  - Import a HTML file and watch it magically convert to Markdown
-  - 
-
 ### Tech
 -----
 
