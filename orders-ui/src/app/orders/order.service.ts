@@ -20,6 +20,10 @@ export class OrderService {
         return this.dataService.getAll(`suppliers/${username}`).toPromise();
     }
 
+    public getWalletBalance(): Promise<any> {
+        return this.dataService.getAll('payments/balance').toPromise();
+    }
+
     public transferTokens(amount: string, username: string): Promise<any> {
         return this.dataService.transferFunds(amount, username).toPromise();
     }

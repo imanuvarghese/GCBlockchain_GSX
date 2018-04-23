@@ -37,9 +37,14 @@
 								<div class="row">
 									Address
 								</div>
-								<div class="row wallet-balance">
-									<h6>Wallet balance:</h6><h6 class="user-wallet-balance">&#160;{{ testWalletBalance }} GSX</h6>
+								<div class="row wallet-balance" *ngIf="walletBalance !== null; else loading_balance">
+									<h6>Wallet balance:</h6><h6 class="user-wallet-balance">&#160;{{ walletBalance }} GSX</h6>
 								</div>
+								<ng-template #loading_balance>
+									<div class="row wallet-balance">
+										Loading balance...
+									</div>
+								</ng-template>
 							</div>
 							<div class="col-sm-6 col-1">
 								<div class="row order-product-type">

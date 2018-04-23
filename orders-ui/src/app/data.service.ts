@@ -17,7 +17,7 @@ export class DataService<Type> {
     private testUser = {
         username: null,
         email: null,
-        token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVhZGQ3MjE0NmI3OGU2ZmEwZmQ3ZjI2MyIsInVzZXJuYW1lIjoiam9obm55YXBwbGV3ZWVkIiwiZXhwIjoxNTI0NTUxNjc5LCJpYXQiOjE1MjQ0NjUyNzl9.oFGjVmqcNFuO8AXZy7HNhkoWv0zmHeCNKht9X-5OvW8'
+        token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVhZGRhY2UwZDA0ZWRiZDMyYTEzMjQ4YiIsInVzZXJuYW1lIjoic2FtbWFjIiwiZXhwIjoxNTI0NTY4NDQxLCJpYXQiOjE1MjQ0ODIwNDF9.VX_rJD5pGrLGC0R53iQ7fkgJdictiC25hXcZd5wSEes'
     };
 
     // Constructor
@@ -266,9 +266,10 @@ export class DataService<Type> {
     ): Observable<any> {
         console.log('transferFunds ', this.actionUrl + 'token/transfer');
 
-        let params = new HttpParams()
-            .set('amount', amount)
-            .set('username', username);
+        let params = {
+            'amount': amount,
+            'payee': username
+        };
 
         let httpOptions = {
             headers: new HttpHeaders({

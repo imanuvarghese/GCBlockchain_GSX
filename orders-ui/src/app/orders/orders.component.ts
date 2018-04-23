@@ -37,6 +37,7 @@ export class OrdersComponent implements OnInit {
   };
 
   // Dummy wallet data
+  public walletBalance = null;
   public testWalletBalance = 10000;
   public processingMessage = 'test';
 
@@ -44,9 +45,9 @@ export class OrdersComponent implements OnInit {
     productType: null,
     productAmount: null,
     // XXX (chris): this and total need to befixed to change rogrammatically:
-    productPrice: '4',
+    productPrice: '40',
     producer: null,
-    total: '400'
+    total: '4000'
   };
   // Dummy strain data
   public productTypes = [
@@ -63,7 +64,7 @@ export class OrdersComponent implements OnInit {
     {
       id: 3,
       name: 'Cherry Pie',
-      price_per_unit: 4
+      price_per_unit: 40
     }
   ];
 
@@ -72,22 +73,22 @@ export class OrdersComponent implements OnInit {
     private notificationService: NotificationService
   ) {
     this.getProducers();
+    this.getWalletBalance();
 
     // Dummy history data
     this.history = [
       {
-        'companyName': 'CannaClinic',
-        'paymentDate': 'Feb. 20, 2018 4:12 pm',
-        'paymentAmount': '1,000',
+        'orderId': '23fgYT4LSp',
+        'paymentDate': '2018-04-23 4:12 pm',
+        'paymentAmount': '4000 GSX',
+        'status': 'pending',
         'paymentNotes': {
           'products': [
             {
-              'description': '1.5 lbs seed batch',
+              'description': '4 lbs seed batch',
               'productID': '23fgYT4LSp'
             }
           ],
-          'invoiced': 'Yes',
-          'invoiceStatus': 'PAID',
           'attachments': []
         }
       }
@@ -130,30 +131,41 @@ export class OrdersComponent implements OnInit {
     console.log('order =>', this.order);
     jQuery('#producer_verify_modal').modal('show');
 
-    // setTimeout(function() {
-    //   _self.processingMessage = "Transferring funds...";
-    //   _self.orderService.transferTokens(_self.order.total, _self.order.producer)
-    //     .then((response) => {
-    //       console.log('transfer funds response =>', response);
-    //       jQuery('#producer_verify_modal').modal('hide');
-    //       _self.notificationService.notify('success', 'Success! The producer was verified and your order has been placed.', false);
-    //       _self.testWalletBalance -= parseInt(_self.order.total);
-    //       _self.placeOrderForm.resetForm();
-    //     })
-    //     .catch((error) => {
-    //       console.log('Error transferring funds:', error);
-    //       jQuery('#producer_verify_modal').modal('hide');
-    //       _self.notificationService.notify('danger', `Uh oh. There was a problem transferring funds: ${error.messsage}`, false);
-    //     });
-    // }, 3000);
+    setTimeout(function() {
+      _self.processingMessage = "Transferring funds...";
+      _self.orderService.transferTokens(_self.order.total, _self.order.producer)
+        .then((response) => {
+          console.log('transfer funds response =>', response);
+          jQuery('#producer_verify_modal').modal('hide');
+          _self.notificationService.notify('success', 'Success! The producer was verified and your order has been placed.', false);
+          _self.walletBalance = response.balance;
+          _self.placeOrderForm.resetForm();
+        })
+        .catch((error) => {
+          console.log('Error transferring funds:', error);
+          jQuery('#producer_verify_modal').modal('hide');
+          _self.notificationService.notify('danger', `Uh oh. There was a problem transferring funds: ${error.messsage}`, false);
+        });
+    }, 3000);
 
     // TODO: replace this with promise/observable from api call
-    setTimeout(function () {
-      jQuery('#producer_verify_modal').modal('hide');
-      _self.notificationService.notify('success', 'Success! The producer was verified and your order has been placed.', false);
-      _self.testWalletBalance -= parseInt(_self.order.total);
-      _self.placeOrderForm.resetForm();
-    }, 5000);
+    // setTimeout(function () {
+    //   jQuery('#producer_verify_modal').modal('hide');
+    //   _self.notificationService.notify('success', 'Success! The producer was verified and your order has been placed.', false);
+    //   _self.testWalletBalance -= parseInt(_self.order.total);
+    //   _self.placeOrderForm.resetForm();
+    // }, 5000);
+  }
+
+  public getWalletBalance(): void {
+    this.orderService.getWalletBalance()
+      .then((result) => {
+        console.log('wallet balance response =>', result);
+        this.walletBalance = result.balance;
+      })
+      .catch((error) => {
+        console.log('Error getting wallet balance:', error);
+      });
   }
 
 }
