@@ -7,7 +7,7 @@ GSX  is a permissioned consortium network that will allow Licensed Producers, Re
 
 A hackathon subsidiary of [Greenstream Technology Inc](www.greenstream.tech)
 
-Team Members : Manu Varghese, Jim Anastassiou, Christopher Lackey, Iuri Matias
+Team Members : Manu Varghese, Jim Anastassiou, Christopher Lackey, Iuri Matias, Drew Taylor
 
 ### Tech
 -----
